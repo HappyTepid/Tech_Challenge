@@ -11,7 +11,7 @@ app.secret_key = 'skdjgsgdf8duh80bt8e8hg09resj9e'
 class grantApplication(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$', message="Please enter a valid UK postcode!")])
-    money_amount = StringField('How much money?', validators=[DataRequired()])
+    money_amount = StringField('How much money?', validators=[DataRequired(), Regexp('^([0-9]+(\.[0-9]+)?|\.[0-9]+)$', message="Please enter a numeric amount")])
     deliciousness = TextAreaField('Why will your new cheese be most delicious?', validators=[DataRequired()])
 
 @app.route('/', methods=['GET', 'POST'])
