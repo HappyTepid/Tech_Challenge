@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="navbar" role="navigation">
+  <div>
+      <p class="navbar-brand text-muted">Grant application</p>
+  </div>
+  </div>
+    <div class="container">
+      {% if error %}
+      {% for e in error %}
+        <p><strong>Error:</strong> {{ e }}
+      {% endfor %}
+      {% endif %}
+        <div class="header">
+            <h3 class="text-muted">Apply now</h3>
+        </div>
+        <hr/>
+        {% from "_formhelpers.html" import render_field %}
+        <form method="POST" action="/">
+          <dl>
+            {{ form.csrf_token }}
+            {{ render_field(form.name) }}
+            <br />
+            {{ render_field(form.postcode) }}
+            <br />
+            {{ render_field(form.money_amount) }}
+            <br />
+            {{ render_field(form.deliciousness) }}
+          </dl>
+          <br />
+          <p><input type="submit" class="btn btn-primary" value="Submit application">
+        </form>
+        <hr/>
+    </div>
+    </div>
+</body>
+</html>
