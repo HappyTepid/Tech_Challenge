@@ -1,6 +1,6 @@
 # Candidate number 2005
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, required, Regexp
@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.secret_key = 'skdjgsgdf8duh80bt8e8hg09resj9e'
 
 class grantApplication(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    first_name = StringField('First name', validators=[DataRequired()])
+    last_name = StringField('Last name', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$', message="Please enter a valid UK postcode!")])
     money_amount = StringField('How much money?', validators=[DataRequired(), Regexp('^([0-9]+(\.[0-9]+)?|\.[0-9]+)$', message="Please enter a numeric amount")])
     deliciousness = TextAreaField('Why will your new cheese be most delicious?', validators=[DataRequired()])
@@ -18,10 +19,17 @@ class grantApplication(FlaskForm):
 def index():
     form = grantApplication()
     if form.validate_on_submit():
-        return render_template('confirmation.html')
+        session['name'] = form.first_name.data
+        return redirect('confirmation')
     else:
         return render_template('index.html', form=form)
 
+@app.route('/confirmation')
+def confirmation():
+    if session.get('name'):
+        return render_template('confirmation.html', name=session['name'])
+    else:
+        return redirect('/')
 
 if __name__ == '__main__':
     app.run(
