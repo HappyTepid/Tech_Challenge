@@ -6,6 +6,7 @@ from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, required, Regexp
 from flask_sqlalchemy import SQLAlchemy
 import os
+import re
 
 base_path = os.getcwd()
 db_path = os.path.join(base_path, 'TechChallenge.db')
@@ -38,7 +39,7 @@ class Submissions(db.Model):
 class grantApplication(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired()])
     last_name = StringField('Last name', validators=[DataRequired()])
-    postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$', message="Please enter a valid UK postcode!")])
+    postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$', flags=re.IGNORECASE, message="Please enter a valid UK postcode!")])
     money_amount = StringField('How much money?', validators=[DataRequired(), Regexp('^([0-9]+(\.[0-9]+)?|\.[0-9]+)$', message="Please enter a numeric amount")])
     deliciousness = TextAreaField('Why will your new cheese be most delicious?', validators=[DataRequired()])
 
