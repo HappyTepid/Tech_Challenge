@@ -68,8 +68,4 @@ def submissions():
     return render_template('submissions.html', rows=rows)
 
 if __name__ == '__main__':
-    app.run(
-        host="0.0.0.0",
-        port=int("8080"),
-        debug=True
-    )
+    app.run()
