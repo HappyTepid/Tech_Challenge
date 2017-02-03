@@ -62,6 +62,11 @@ def confirmation():
     else:
         return redirect('/')
 
+@app.route('/submissions')
+def submissions():
+    rows = Submissions.query.order_by(Submissions.ID.desc()).all()
+    return render_template('submissions.html', rows=rows)
+
 if __name__ == '__main__':
     app.run(
         host="0.0.0.0",
